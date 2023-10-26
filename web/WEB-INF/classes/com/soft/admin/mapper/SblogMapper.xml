@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.soft.admin.dao.ISblogDao">
+
+	<insert id="addSblog" parameterType="Sblog">
+		<![CDATA[
+			insert into sblog
+			values (null, #{sblog_type_id}, #{user_id}, #{sblog_title}, #{sblog_content}, #{sblog_date}, #{sblog_click}, #{sblog_praise}, #{sblog_kind})
+		]]>
+	</insert>
+
+	<delete id="delSblog" parameterType="int">
+		<![CDATA[
+			delete from sblog where sblog_id=#{sblog_id}
+		]]>
+	</delete>
+
+	<delete id="delSblogs" parameterType="int">
+		<![CDATA[
+			delete from sblog where sblog_id in 
+		]]>
+		<foreach collection="array" item="sblog_ids"  open="(" separator="," close=")">
+			#{sblog_ids}
+		</foreach>
+	</delete>
+
+	<update id="updateSblog" parameterType="Sblog">
+		<![CDATA[
+			UPDATE sblog
+		]]>
+		<set>
+			<if test="sblog_title!=null and sblog_title!=''">
+			<![CDATA[
+				sblog_title = #{sblog_title},
+			]]>
+			</if>
+			<if test="sblog_content!=null and sblog_content!=''">
+			<![CDATA[
+				sblog_content = #{sblog_content},
+			]]>
+			</if>
+			<if test="sblog_click!=0">
+				<![CDATA[
+				sblog_click = #{sblog_click},
+			]]>
+			</if>
+			<if test="sblog_praise!=0">
+			<![CDATA[
+				sblog_praise = #{sblog_praise},
+			]]>
+			</if>
+			<if test="sblog_kind!=0">
+			<![CDATA[
+				sblog_kind = #{sblog_kind}
+			]]>
+			</if>
+		</set>
+		<![CDATA[
+			where sblog_id = #{sblog_id}
+		]]>
+	</update>
+
+	<update id="updateSblogAll" parameterType="Sblog">
+		<![CDATA[
+			UPDATE sblog
+			  set
+			  user_id = #{user_id},sblog_content = #{sblog_content},sblog_date = #{sblog_date}
+		]]>
+		<![CDATA[
+			where sblog_id = #{sblog_id}
+		]]>
+	</update>
+
+	<select id="getSblog" parameterType="Sblog" resultType="Sblog">
+		<![CDATA[
+			SELECT s.*,u.user_name,u.user_photo,u.user_fss,u.user_sex,st.sblog_type_name FROM sblog s
+			  join user u on s.user_id=u.user_id
+			  join sblog_type st on s.sblog_type_id=st.sblog_type_id
+		]]>
+		<where>
+			<if test="sblog_id!=0">
+			<![CDATA[
+				sblog_id = #{sblog_id}
+			]]>
+			</if>
+		</where>
+	</select>
+
+	<select id="listSblogs" parameterType="Sblog" resultType="Sblog">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT s.*,u.user_name,u.user_photo,u.user_fss,u.user_sex,st.sblog_type_name FROM sblog s
+			  join user u on s.user_id=u.user_id
+			  join sblog_type st on s.sblog_type_id=st.sblog_type_id
+		]]>
+		<where>
+			<if test="sblog_id!=0">
+			<![CDATA[
+				sblog_id = #{sblog_id}
+			]]>
+			</if>
+			<if test="sblog_type_id!=0">
+			<![CDATA[
+				and s.sblog_type_id = #{sblog_type_id}
+			]]>
+			</if>
+			<if test="sblog_title!=null and sblog_title!=''">
+			<![CDATA[
+				and s.sblog_title like '%${sblog_title}%'
+			]]>
+			</if>
+			<if test="user_id!=0">
+			<![CDATA[
+				and s.user_id = #{user_id}
+			]]>
+			</if>
+			<if test="user_name!=null and user_name!=''">
+			<![CDATA[
+				and u.user_name like '%${user_name}%'
+			]]>
+			</if>
+			<if test="sblog_kind!=0">
+			<![CDATA[
+				and sblog_kind = #{sblog_kind}
+			]]>
+			</if>
+			<if test="user_focus!=0">
+				<![CDATA[
+				and s.user_id in (select sblog_user from focus where user_id = #{user_focus})
+			]]>
+			</if>
+		</where>
+		<if test="top_flag==1">
+		<![CDATA[
+			order by sblog_click desc,sblog_date desc,sblog_id asc) t
+		]]>
+		</if>
+		<if test="top_flag!=1">
+			<![CDATA[
+			order by sblog_date desc,sblog_id asc) t
+		]]>
+		</if>
+		<if test="start!=-1">
+			<![CDATA[
+			Limit ${start},${limit}
+		]]>
+		</if>
+	</select>
+
+	<select id="listSblogsCount" parameterType="Sblog" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM sblog s
+			  join user u on s.user_id=u.user_id
+			  join sblog_type st on s.sblog_type_id=st.sblog_type_id
+		]]>
+		<where>
+			<if test="sblog_id!=0">
+				<![CDATA[
+				sblog_id = #{sblog_id}
+			]]>
+			</if>
+			<if test="sblog_type_id!=0">
+				<![CDATA[
+				and s.sblog_type_id = #{sblog_type_id}
+			]]>
+			</if>
+			<if test="sblog_title!=null and sblog_title!=''">
+				<![CDATA[
+				and s.sblog_title like '%${sblog_title}%'
+			]]>
+			</if>
+			<if test="user_id!=0">
+				<![CDATA[
+				and s.user_id = #{user_id}
+			]]>
+			</if>
+			<if test="user_name!=null and user_name!=''">
+				<![CDATA[
+				and u.user_name like '%${user_name}%'
+			]]>
+			</if>
+			<if test="sblog_kind!=0">
+				<![CDATA[
+				and sblog_kind = #{sblog_kind}
+			]]>
+			</if>
+			<if test="user_focus!=0">
+				<![CDATA[
+				and s.user_id in (select sblog_user from focus where user_id = #{user_focus})
+			]]>
+			</if>
+		</where>
+	</select>
+
+</mapper>

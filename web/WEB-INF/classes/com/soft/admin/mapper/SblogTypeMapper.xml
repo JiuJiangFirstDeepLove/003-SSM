@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.soft.admin.dao.ISblogTypeDao">
+
+	<insert id="addSblogType" parameterType="SblogType">
+		<![CDATA[
+			insert into sblog_type
+				values(null,#{sblog_type_name},#{sblog_type_note})
+		]]>
+	</insert>
+
+	<delete id="delSblogType" parameterType="int">
+		<![CDATA[
+			delete from sblog_type where sblog_type_id=#{sblog_type_id}
+		]]>
+	</delete>
+
+	<delete id="delSblogTypes" parameterType="int">
+		<![CDATA[
+			delete from sblog_type where sblog_type_id in 
+		]]>
+		<foreach collection="array" item="sblog_type_ids"  open="(" separator="," close=")">
+			#{sblog_type_ids}
+		</foreach>
+	</delete>
+
+	<update id="updateSblogType" parameterType="SblogType">
+		<![CDATA[
+			UPDATE sblog_type
+			  set
+			  sblog_type_name = #{sblog_type_name},sblog_type_note = #{sblog_type_note}
+		]]>
+		<![CDATA[
+			where sblog_type_id = #{sblog_type_id}
+		]]>
+	</update>
+
+	<update id="updateSblogTypeAll" parameterType="SblogType">
+		<![CDATA[
+			UPDATE sblog_type
+			  set
+			  sblog_type_name = #{sblog_type_name},sblog_type_note = #{sblog_type_note}
+		]]>
+		<![CDATA[
+			where sblog_type_id = #{sblog_type_id}
+		]]>
+	</update>
+
+	<select id="getSblogType" parameterType="SblogType" resultType="SblogType">
+		<![CDATA[
+			SELECT t1.*,IFNULL(t2.sblog_count,0) sblog_count,IFNULL(t2.user_count,0) user_count
+			  FROM sblog_type t1
+			  left join (select sblog_type_id,count(0) sblog_count, count(distinct user_id) user_count from sblog group by sblog_type_id) t2
+			    on t1.sblog_type_id=t2.sblog_type_id
+		]]>
+		<where>
+			<if test="sblog_type_id!=0">
+			<![CDATA[
+				t1.sblog_type_id = #{sblog_type_id}
+			]]>
+			</if>
+			<if test="sblog_type_name!=null and sblog_type_name!=''">
+			<![CDATA[
+				and sblog_type_name = #{sblog_type_name}
+			]]>
+			</if>
+		</where>
+	</select>
+
+	<select id="listSblogTypes" parameterType="SblogType" resultType="SblogType">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT t1.*,IFNULL(t2.sblog_count,0) sblog_count,IFNULL(t2.user_count,0) user_count
+			  FROM sblog_type t1
+			  left join (select sblog_type_id,count(0) sblog_count, count(distinct user_id) user_count from sblog group by sblog_type_id) t2
+			    on t1.sblog_type_id=t2.sblog_type_id
+		]]>
+		<where>
+			<if test="sblog_type_id!=0">
+			<![CDATA[
+				t1.sblog_type_id = #{sblog_type_id}
+			]]>
+			</if>
+			<if test="sblog_type_name!=null and sblog_type_name!=''">
+			<![CDATA[
+				and sblog_type_name like '%${sblog_type_name}%'
+			]]>
+			</if>
+		</where>
+		<![CDATA[
+			order by sblog_type_id asc) t
+		]]>
+		<if test="start!=-1">
+		<![CDATA[
+			Limit ${start},${limit}
+		]]>
+		</if>
+	</select>
+
+	<select id="listSblogTypesCount" parameterType="SblogType" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM sblog_type
+		]]>
+		<where>
+			<if test="sblog_type_id!=0">
+			<![CDATA[
+				sblog_type_id = #{sblog_type_id}
+			]]>
+			</if>
+			<if test="sblog_type_name!=null and sblog_type_name!=''">
+			<![CDATA[
+				and sblog_type_name like '%${sblog_type_name}%'
+			]]>
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.soft.admin.dao.IVisitDao">
+
+	<insert id="addVisit" parameterType="Visit">
+		<![CDATA[
+			insert into visit
+				values(null,#{visit_ip},#{visit_date})
+		]]>
+	</insert>
+
+	<delete id="delVisit" parameterType="int">
+		<![CDATA[
+			delete from visit where visit_id=#{visit_id}
+		]]>
+	</delete>
+
+	<delete id="delVisits" parameterType="int">
+		<![CDATA[
+			delete from visit where visit_id in
+		]]>
+		<foreach collection="array" item="visit_ids"  open="(" separator="," close=")">
+			#{visit_ids}
+		</foreach>
+	</delete>
+
+	<update id="updateVisit" parameterType="Visit">
+		<![CDATA[
+			UPDATE visit
+		]]>
+		<set>
+			<if test="visit_date!=null and visit_date!=''">
+			<![CDATA[
+				visit_date = #{visit_date}
+			]]>
+			</if>
+		</set>
+		<![CDATA[
+			where visit_id = #{visit_id}
+		]]>
+	</update>
+
+	<update id="updateVisitAll" parameterType="Visit">
+		<![CDATA[
+			UPDATE visit
+			  set
+			  visit_ip = #{visit_ip},visit_date = #{visit_date}
+		]]>
+		<![CDATA[
+			where visit_id = #{visit_id}
+		]]>
+	</update>
+
+	<select id="getVisit" parameterType="Visit" resultType="Visit">
+		<![CDATA[
+			SELECT t1.* FROM visit t1
+		]]>
+		<where>
+			<if test="visit_id!=0">
+			<![CDATA[
+				t1.visit_id = #{visit_id}
+			]]>
+			</if>
+			<if test="visit_ip!=null and visit_ip!=''">
+			<![CDATA[
+				and visit_ip like '%${visit_ip}%'
+			]]>
+			</if>
+		</where>
+	</select>
+
+	<select id="listVisits" parameterType="Visit" resultType="Visit">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT t1.* FROM visit t1
+		]]>
+		<where>
+			<if test="visit_id!=0">
+			<![CDATA[
+				t1.visit_id = #{visit_id}
+			]]>
+			</if>
+			<if test="visit_ip!=null and visit_ip!=''">
+			<![CDATA[
+				and visit_ip like '%${visit_ip}%'
+			]]>
+			</if>
+		</where>
+		<![CDATA[
+			order by visit_date desc,t1.visit_id asc) t
+		]]>
+		<if test="start!=-1">
+		<![CDATA[
+			Limit ${start},${limit}
+		]]>
+		</if>
+	</select>
+
+	<select id="listVisitsCount" parameterType="Visit" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM visit
+		]]>
+		<where>
+			<if test="visit_id!=0">
+			<![CDATA[
+				visit_id = #{visit_id}
+			]]>
+			</if>
+			<if test="visit_ip!=null and visit_ip!=''">
+			<![CDATA[
+				and visit_ip like '%${visit_ip}%'
+			]]>
+			</if>
+		</where>
+	</select>
+
+</mapper>

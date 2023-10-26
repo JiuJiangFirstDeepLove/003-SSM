@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.soft.admin.dao.IPraiseDao">
+
+	<insert id="addPraise" parameterType="Praise">
+		<![CDATA[
+			insert into praise
+				values(null,#{user_id},#{sblog_id})
+		]]>
+	</insert>
+
+	<delete id="delPraise" parameterType="int">
+		<![CDATA[
+			delete from praise where praise_id=#{praise_id}
+		]]>
+	</delete>
+
+	<delete id="delPraises" parameterType="int">
+		<![CDATA[
+			delete from praise where praise_id in 
+		]]>
+		<foreach collection="array" item="praise_ids"  open="(" separator="," close=")">
+			#{praise_ids}
+		</foreach>
+	</delete>
+
+	<update id="updatePraise" parameterType="Praise">
+		<![CDATA[
+			UPDATE praise
+		]]>
+		<set>
+			<if test="">
+			<![CDATA[
+				
+			]]>
+			</if>
+		</set>
+		<![CDATA[
+			where praise_id = #{praise_id}
+		]]>
+	</update>
+
+	<update id="updatePraiseAll" parameterType="Praise">
+		<![CDATA[
+			UPDATE praise
+			  set
+			  user_id = #{user_id},sblog_id = #{sblog_id}
+		]]>
+		<![CDATA[
+			where praise_id = #{praise_id}
+		]]>
+	</update>
+
+	<select id="getPraise" parameterType="Praise" resultType="Praise">
+		<![CDATA[
+			SELECT * FROM praise
+		]]>
+		<where>
+			<if test="praise_id!=0">
+			<![CDATA[
+				praise_id = #{praise_id}
+			]]>
+			</if>
+			<if test="user_id!=0">
+			<![CDATA[
+				and user_id = #{user_id}
+			]]>
+			</if>
+			<if test="sblog_id!=0">
+			<![CDATA[
+				and sblog_id = #{sblog_id}
+			]]>
+			</if>
+		</where>
+	</select>
+
+	<select id="listPraises" parameterType="Praise" resultType="Praise">
+		<![CDATA[
+			SELECT * FROM (
+			SELECT * FROM praise
+		]]>
+		<where>
+			<if test="praise_id!=0">
+			<![CDATA[
+				praise_id = #{praise_id}
+			]]>
+			</if>
+			<if test="user_id!=0">
+			<![CDATA[
+				and user_id = #{user_id}
+			]]>
+			</if>
+			<if test="sblog_id!=0">
+			<![CDATA[
+				and sblog_id = #{sblog_id}
+			]]>
+			</if>
+		</where>
+		<![CDATA[
+			order by praise_id asc) t
+		]]>
+		<if test="start!=-1">
+		<![CDATA[
+			Limit ${start},${limit}
+		]]>
+		</if>
+	</select>
+
+	<select id="listPraisesCount" parameterType="Praise" resultType="int">
+		<![CDATA[
+			SELECT count(*) FROM praise
+		]]>
+		<where>
+			<if test="praise_id!=0">
+			<![CDATA[
+				praise_id = #{praise_id}
+			]]>
+			</if>
+			<if test="user_id!=0">
+			<![CDATA[
+				and user_id = #{user_id}
+			]]>
+			</if>
+			<if test="sblog_id!=0">
+			<![CDATA[
+				and sblog_id = #{sblog_id}
+			]]>
+			</if>
+		</where>
+	</select>
+
+</mapper>

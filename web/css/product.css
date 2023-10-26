@@ -1,0 +1,76 @@
+
+
+#product_info .productShow{
+	margin-top:5px;
+	width:1190px;
+	border:1px solid #f0f0f0;
+	overflow:hidden;
+}
+
+#product_info .productShow  .title{
+	line-height:50px;
+	width:1100px;
+	margin-left:10px;
+	color:#A88D5A;
+	font-size:18px;
+	font-weight:bold;
+	overflow:hidden;
+}
+
+#product_info .productShow .typehr{
+    height:5px;
+	width:1100px;
+	margin-left:10px;
+	border-bottom:1px solid whitesmoke; 
+	overflow:hidden;
+}
+
+#product_info .productShow .pictext{
+	margin-top:5px;
+	width:1100px;
+	height:280px;
+	overflow:hidden;
+}
+
+#product_info .productShow .pic{
+	float:left;
+	width:320px;
+	height:280px;
+	line-height:280px;
+	text-align:center;
+	overflow:hidden;
+}
+
+#product_info .productShow .text{
+	float:left;
+	margin-left:50px;
+	width:700px;
+	height:280px;
+	color:#A88D5A;
+	overflow:hidden;
+}
+
+#product_info .productShow .textTop{
+	height:120px;
+	line-height:30px;
+	text-align:left;
+	font-size:15px;
+	overflow:hidden;
+}
+
+#product_info .productShow .textBtn{
+	height:180px;
+	line-height:80px;
+	text-align:left;
+	font-size:15px;
+	overflow:hidden;
+}
+
+#product_info .productShow .intro{
+	margin-top:5px;
+	padding-left:20px;
+	width:1090px;
+	line-height:30px;
+	font-size:15px;
+	overflow:hidden;
+}

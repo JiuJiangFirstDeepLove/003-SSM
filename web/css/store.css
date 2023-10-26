@@ -1,0 +1,143 @@
+#product_menu{
+	float:left;
+	margin-top:5px;
+	width:200px;
+	min-height:400px;
+	max-height:none;
+	overflow:hidden;
+	overflow-y:auto;
+	box-shadow:0 2px 12px 0 rgb(0 0 0 / 10%);
+}
+#product_menu .ptable_menu{
+	margin:0px;
+	padding:0px;
+	width:200px;
+	border:0px;
+	border-collapse: collapse;
+	overflow:hidden;
+	overflow-y:auto;
+}
+#product_menu .ptable_menu_title td{
+	height:50px;
+	line-height:50px;
+	font-size:16px;
+	font-weight:bold;
+	color:#000;
+	border-bottom:1px solid whitesmoke;
+	text-align:center;
+	border-radius:8px;
+}
+#product_menu .ptable_menu_text td{
+	height:50px;
+	line-height:50px;
+	color:#A88D5A;
+	font-size:16px;
+	font-weight:bold;
+	text-align:center;
+}
+
+#product_menu .ptable_menu_text td a{
+	width:100px;
+	height:25px;
+	line-height:25px;
+	margin:0 auto;
+	margin-top:12px;
+	box-sizing: border-box;
+	font-size:16px;
+	font-weight:bold;
+	text-align:center;
+	padding-left:5px;
+	display:block;
+	border-left:2px solid white;
+}
+
+#product_menu .ptable_menu_text td a:hover,#product_menu .ptable_menu_text td a.active{
+	border-left:2px solid #6782ef;
+	color:#6782ef;
+}
+
+#product_info{
+	float:left;
+	margin-top:5px;
+	margin-left:5px;
+	width:946px;
+	min-height:400px;
+	max-height:none;
+	overflow:hidden;
+	box-shadow:0 2px 12px 0 rgb(0 0 0 / 10%);
+}
+
+#product_info  .title{
+	line-height:50px;
+	width:936px;
+	margin-left:10px;
+	color:#A88D5A;
+	font-size:16px;
+	font-weight:bold;
+	overflow:hidden;
+}
+
+#product_info form{
+	width:936px;
+}
+
+#product_info .ptable{
+	width:920px;
+	margin-left:10px;
+	border:0px;
+	border-collapse: collapse;
+}
+
+#product_info  .ptable .head_text {
+	font-weight:bold;
+} 
+
+#product_info .ptable td{
+	padding:5px;
+	height:25px;
+	/* border:1px solid whitesmoke; */
+	border-left:0px;
+	border-right:0px;
+	font-size:15px;
+	overflow:hidden;
+}
+
+#product_info .ptable td:last-child{
+	border-bottom:0px solid whitesmoke;
+	height:50px;
+}
+
+#product_info .KEEdit td{
+	clear:both;
+	border: 0;
+	margin: 0;
+	padding: 2px 5px;
+}
+
+#product_info  .pages{
+	width:920px;
+	height:50px;
+	line-height:50px;
+	font-size:14px;
+	text-align:center;
+}
+#product_info  .pages #page{
+	height:50px;
+	line-height:50px;
+	font-size:14px;
+}
+
+#product_info #addBtn, #product_info #editBtn, #product_info #saveBtn{
+	width:100px;
+	height:35px!important;
+	font-size:14px;
+}
+
+#product_info input, #product_info select{
+	border:1px solid #E7EAED;
+	height:30px;
+}
+
+#product_info input:focus{
+	outline-width: 0px;
+}
